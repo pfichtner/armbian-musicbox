@@ -1,0 +1,113 @@
+#!/bin/sh
+
+set -e
+
+
+### apt install -y 7z kpartx parted
+
+
+
+
+
+getLoop() {
+	IMGFILE=$1
+	echo "/dev/mapper/`kpartx -av $IMGFILE | egrep -o 'loop[0-9]+p[0-9]+'`"
+}
+
+freeLoop() {
+	IMGFILE=$1
+	kpartx -dv $IMGFILE
+}
+
+increase() {
+	IMGFILE=$1
+	INCREASE_MB=$2
+	truncate -s +${INCREASE_MB}M $IMGFILE
+	parted -s $IMGFILE -a optimal resizepart 1 '100%'
+	LOOP=`getLoop $IMGFILE`
+	partprobe $LOOP
+	e2fsck -yf $LOOP
+	resize2fs $LOOP
+	freeLoop $IMGFILE
+}
+
+minimize() {
+	IMGFILE=$1
+	LOOP=`getLoop $IMGFILE`
+	e2fsck -yf $LOOP
+	resize2fs -M $LOOP
+	NEWSIZE=`parted -ms $IMGFILE unit B print | tail -1 | cut -d':' -f3 | tr -d 'B'`
+	truncate -s $NEWSIZE $IMGFILE
+	freeLoop $IMGFILE
+}
+
+#######################################
+#######################################
+#######################################
+### prepare from ready to use image ###
+#######################################
+#######################################
+#######################################
+
+############
+# download #
+############
+ARCFILE=Armbian_20.02.1_Orangepizero_buster_current_5.4.20.7z 
+wget -c https://dl.armbian.com/orangepizero/archive/$ARCFILE
+7zr -aoa x $ARCFILE
+
+###############
+# make bigger #
+###############
+IMGFILE=*.img
+increase $IMGFILE 256
+
+
+
+
+
+#########
+# mount #
+#########
+LOOP=`getLoop $IMGFILE`
+[ -d imgroot ] || mkdir imgroot
+mount $LOOP imgroot
+
+# strip to minimum before installing anything?
+# https://gist.github.com/dcloud9/8918580
+
+##############
+### chroot ###
+##############
+cd imgroot
+TMP=`mktemp -d -p tmp/`
+cd ..
+cp -ax run_in_chroot debs imgroot/$TMP
+# TODO pass http_proxy / https_proxy
+# $ sudo chroot mychroot /bin/bash -c 'MY_VAR=5; echo ${MY_VAR}'
+sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/00-upgrade.sh"
+sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/10-provisioning.sh"
+sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/20-orangepizero.sh"
+sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/90-cleanup.sh"
+
+
+##########
+# umount #
+##########
+umount imgroot
+freeLoop $IMGFILE
+
+
+
+
+##################
+# compress image #
+##################
+minimize $IMGFILE
+increase $IMGFILE 32
+7zr -sdel a mopidy-orangepi.7z $IMGFILE
+
+
+
+# add script to resize partition to sd card size
+# unneeded on raspian (already included)?
