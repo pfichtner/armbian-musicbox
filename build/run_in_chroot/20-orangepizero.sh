@@ -20,3 +20,15 @@ fi
 dpkg -i debs/*.deb || true
 apt --fix-broken -y install
 
+cat <<EOF >/etc/usbmount/mount.d/10_mopidy_local_scan 
+#!/bin/sh
+/usr/sbin/mopidyctl local scan
+EOF
+chmod +x /etc/usbmount/mount.d/10_mopidy_local_scan 
+
+cat <<EOF >/etc/usbmount/umount.d/10_mopidy_local_scan 
+#!/bin/sh
+/usr/sbin/mopidyctl local scan
+EOF
+chmod +x /etc/usbmount/umount.d/10_mopidy_local_scan 
+
