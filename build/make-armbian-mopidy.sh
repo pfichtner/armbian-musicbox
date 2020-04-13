@@ -2,12 +2,7 @@
 
 set -e
 
-
-### apt install -y 7z kpartx parted
-
-
-
-
+export DEBIAN_FRONTEND=noninteractive
 
 getLoop() {
 	IMGFILE=$1
@@ -83,11 +78,11 @@ cd imgroot
 TMP=`mktemp -d -p tmp/`
 cd ..
 cp -ax run_in_chroot debs imgroot/$TMP
-# TODO pass http_proxy / https_proxy
-# $ sudo chroot mychroot /bin/bash -c 'MY_VAR=5; echo ${MY_VAR}'
+
 sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/00-upgrade.sh"
 sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/10-provisioning.sh"
 sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/20-orangepizero.sh"
+sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/80-install-raspap.sh"
 sh chroot.sh imgroot sh -c "cd /$TMP; sh -x run_in_chroot/90-cleanup.sh"
 
 
