@@ -3,7 +3,7 @@ sudo -E apt update && apt install -y p7zip parted kpartx qemu-user-static
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "debian/buster64"
+  config.vm.box = "generic/debian10"
   config.vm.provision "shell", inline: $script
   # config.vm.network "forwarded_port", guest: 6680, host: 8888
   # config.vm.network "forwarded_port", guest: 6600, host: 6600
