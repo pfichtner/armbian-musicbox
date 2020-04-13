@@ -16,7 +16,7 @@ vagrant_copy() {
 }
 
 vagrant_up
-#vagrant ssh -c "git clone https://github.com/volumio/Build build && cd build/ && sudo -E bash build.sh -b $ARCH -d $DEVICE -v $VERSION && sudo bzip2 -9 Volumio$VERSION-*-$DEVICE.img && ls -lh"
-vagrant ssh -c "cp -ax /vagrant/build . && cd build/ && sudo -E bash make-armbian-mopidy.sh && ls -lh"
-vagrant_copy default:build/*.img.bz2 default:build/*.img.md5 .
+vagrant_copy -pr build default:
+vagrant ssh -c "cd build/ && sudo -E bash make-armbian-mopidy.sh && ls -lh"
+vagrant_copy -pr default:build/*.7z .
 vagrant destroy -f
