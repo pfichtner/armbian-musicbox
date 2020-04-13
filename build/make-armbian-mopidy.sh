@@ -55,7 +55,7 @@ wget -c https://dl.armbian.com/orangepizero/archive/$ARCFILE
 # make bigger #
 ###############
 IMGFILE=*.img
-increase $IMGFILE 256
+increase $IMGFILE 512
 
 
 
