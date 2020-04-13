@@ -4,9 +4,9 @@ set -e
 TMP=`mktemp -d`
 
 mkdir "$TMP/sbin/"
-echo <<EOF >>"$TMP/sbin/sudo"
+cat <<EOF >>"$TMP/sbin/sudo"
 #!/bin/sh
-exec $@
+$@
 EOF
 chmod +x "$TMP/sbin/sudo"
 export PATH="$TMP/sbin/:$PATH"
