@@ -7,7 +7,12 @@ wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.lis
 apt-get update
 apt-get install -y mopidy gstreamer1.0-alsa mopidy-mpd python3-pip
 
-################
+#########
+# wheel # 
+#########
+python3 -m pip install wheel
+
+#################
 # Mopidy-Local # 
 ################
 python3 -m pip install Mopidy-Local
