@@ -5,7 +5,7 @@ apt-get install -y gnupg2
 wget -q -O - https://apt.mopidy.com/mopidy.gpg | apt-key add -
 wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buster.list
 apt-get update
-apt-get install -y mopidy gstreamer1.0-alsa mopidy-mpd python3-pip
+apt-get install -y gstreamer1.0-alsa mopidy mopidy-mpd python3-pip usbmount
 
 #########
 # wheel # 
