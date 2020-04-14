@@ -6,7 +6,7 @@ TMP=`mktemp -d`
 mkdir "$TMP/sbin/"
 cat <<EOF >>"$TMP/sbin/sudo"
 #!/bin/sh
-$@
+\$@
 EOF
 chmod +x "$TMP/sbin/sudo"
 export PATH="$TMP/sbin/:$PATH"
