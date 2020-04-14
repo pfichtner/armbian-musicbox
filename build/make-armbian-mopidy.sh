@@ -48,8 +48,9 @@ minimize() {
 # download #
 ############
 ARCFILE=Armbian_20.02.1_Orangepizero_buster_current_5.4.20.7z 
-wget -c https://dl.armbian.com/orangepizero/archive/$ARCFILE
-7zr -aoa x $ARCFILE
+[ -d dls ] || mkdir dls
+(cd dls ; wget -c https://dl.armbian.com/orangepizero/archive/$ARCFILE)
+7zr -aoa x dls/$ARCFILE
 
 ###############
 # make bigger #

@@ -5,6 +5,7 @@ language: generic
 cache:
   directories:
   - "/home/travis/.vagrant.d/boxes"
+  - "/home/travis/build/dls"
 
 install:
 # Install libvrt & KVM (see https://github.com/alvistack/ansible-role-virtualbox/blob/master/.travis.yml)
