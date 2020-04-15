@@ -29,7 +29,8 @@ prepare_chroot() {
 }
 
 finish_chroot() {
-    rm -f ${ROOTFS_DIR}/etc/resolv.conf ${ROOTFS_DIR}/usr/bin/qemu-arm-static ${ROOTFS_DIR}/usr/sbin/policy-rc.d
+    # rm -f ${ROOTFS_DIR}/etc/resolv.conf ${ROOTFS_DIR}/usr/bin/qemu-arm-static ${ROOTFS_DIR}/usr/sbin/policy-rc.d
+    rm -f ${ROOTFS_DIR}/usr/bin/qemu-arm-static ${ROOTFS_DIR}/usr/sbin/policy-rc.d
     [ -r "$BACKUP_DIR/backup.tar" ] && tar -xpf $BACKUP_DIR/backup.tar && rm $BACKUP_DIR/backup.tar
     sync
     umount ${ROOTFS_DIR}/dev/pts
