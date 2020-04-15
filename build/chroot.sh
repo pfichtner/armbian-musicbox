@@ -16,7 +16,11 @@ prepare_chroot() {
         
     # Disable preloaded shared library to get everything including networking to work on x86
     backup /etc/ld.so.preload
-    backup /etc/resolv.conf ; cp -ax /etc/resolv.conf ${ROOTFS_DIR}/etc/resolv.conf
+
+    echo /etc/resolv.conf && cat /etc/resolv.conf
+    echo ${ROOTFS_DIR}/etc/resolv.conf && cat ${ROOTFS_DIR}/etc/resolv.conf
+
+    #backup /etc/resolv.conf ; cp -ax /etc/resolv.conf ${ROOTFS_DIR}/etc/resolv.conf
     backup ${ROOTFS_DIR}/usr/bin/qemu-arm-static ; cp `which qemu-arm-static` ${ROOTFS_DIR}/usr/bin/
     # Prevent upgraded services from trying to start inside chroot
     backup ${ROOTFS_DIR}/usr/sbin/policy-rc.d
