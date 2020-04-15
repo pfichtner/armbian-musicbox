@@ -6,7 +6,9 @@ export DEBIAN_FRONTEND=noninteractive
 
 getLoop() {
 	IMGFILE=$1
-	echo "/dev/mapper/`kpartx -av $IMGFILE | egrep -o 'loop[0-9]+p[0-9]+'`"
+	SIMPLENAME=`kpartx -av $IMGFILE | egrep -o 'loop[0-9]+p[0-9]+'`
+find /dev -name $SIMPLENAME
+	echo "/dev/mapper/$SIMPLENAME"
 }
 
 freeLoop() {
@@ -36,6 +38,33 @@ minimize() {
 	freeLoop $IMGFILE
 }
 
+los() {
+  img="$1"
+  dev="$(losetup --show -f -P "$img")"
+  echo "$dev"
+  for part in "$dev"?*; do
+    if [ "$part" = "${dev}p*" ]; then
+      part="${dev}"
+    fi
+    dst="/mnt/$(basename "$part")"
+    echo "$dst"
+    mkdir -p "$dst"
+    mount "$part" "$dst"
+  done
+}
+
+losd() {
+  dev="/dev/loop$1"
+  for part in "$dev"?*; do
+    if [ "$part" = "${dev}p*" ]; then
+      part="${dev}"
+    fi
+    dst="/mnt/$(basename "$part")"
+    umount "$dst"
+  done
+  losetup -d "$dev"
+}
+
 #######################################
 #######################################
 #######################################
@@ -52,14 +81,22 @@ ARCFILE=Armbian_20.02.1_Orangepizero_buster_current_5.4.20.7z
 (cd dls ; wget -c https://dl.armbian.com/orangepizero/archive/$ARCFILE)
 7zr -aoa x dls/$ARCFILE
 
+IMGFILE=*.img
+
+
+# **********************
+# **********************
+los $IMGFILE
+find /mnt
+losd $IMGFILE
+# **********************
+# **********************
+
+
 ###############
 # make bigger #
 ###############
-IMGFILE=*.img
 increase $IMGFILE 512
-
-
-
 
 
 #########
