@@ -1,5 +1,5 @@
 $script = <<-SCRIPT
-sudo -E apt-get update && apt-get install -y p7zip parted kpartx qemu-user-static
+sudo -E apt-get update && apt-get install -y p7zip parted qemu-user-static
 SCRIPT
 
 Vagrant.configure("2") do |config|
