@@ -6,7 +6,10 @@ export DEBIAN_FRONTEND=noninteractive
 
 getLoop() {
 	IMGFILE=$1
-	echo "/dev/mapper/`kpartx -av $IMGFILE | egrep -o 'loop[0-9]+p[0-9]+'`"
+	SIMPLENAME=`kpartx -av $IMGFILE | egrep -o 'loop[0-9]+p[0-9]+'`
+	FQNAME="/dev/mapper/$SIMPLENAME"
+	[ -e "$FQNAME" ] || FQNAME="/dev/$SIMPLENAME"
+	echo "$FQNAME"
 }
 
 freeLoop() {
