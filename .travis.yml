@@ -31,3 +31,15 @@ script:
 before_deploy:
 - git tag "$(date +'%Y%m%d')-$(git log --format=%h -1)"
 
+deploy:
+  provider: releases
+  api_key:
+    secure: pLNJUIO2209vFWYe6+g01Nk2Am4Wn1jDmhGL4fu2EQ3Rq1fwBjoGNDdL5EP1Go8dHGHLfqsL0iHqGa80nGmDm8QxTHqiW0E6lNBhd+tOdhKDnhiUxlfMux9U3SLxyan2LgN/GG7e0447TjdmdH2Oyfvf/Zu/EJ849JOPxLbKwJsiaOwSGBNqDp3Xns+xbwGaxBLoGiwX9DFtVf6gO2Xpjoq0TAOe+dzrZscbrBy0UvCWFGvCG2Z5KgSqOZ3qm3fSe00tm8QbPE/ICmpO1+rAs0vAvQYrKI6eWVwcjbaqjMs6qC3I9NWBWt64wvNHVwyI5yx057P9uD+nxm6WvxmEhAwIZKfbAjd0M87vi/LnTyKqxyuOwhlbitwexk7M79yD21NsdPZriMjgdtkT0dg2rBYMYywngIy09MTKesjK5q+ZxTkAsZjQU3l/q0gvBWo+oY2BaGehxXOV6EynIciWeXIGYo8SFXL9EUoqiZdZ0D0q03b/BrzwznoV/hGCgzdJQqdB8NpxnHM/TL6v04XnAQLqGEw5EkF8WUj0npj1W3cCHgqZCS6ppOdI4kLrdAvnsCj3iwob6xIVk2M00DlVrhTsHLBZCAUmWgQe2e98HDWD7JZ78LaEhdsUiFmQ/eLq7RL1913HwRnkN9rHfJJHqvBZo8rJL64MccXUNsJQ3lc=
+  skip_cleanup: true
+  cleanup: false
+  overwrite: true
+  file_glob: true
+  file: *.7z
+  on:
+    repo: pfichtner/armbian-musicbox
+
