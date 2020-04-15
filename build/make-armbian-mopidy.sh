@@ -4,17 +4,21 @@ set -e
 
 export DEBIAN_FRONTEND=noninteractive
 
+los() {
+  dev="$(losetup --show -f -P "$1")"
+  echo "$dev"
+  for part in "$dev"?*; do
+    [ "$part" = "${dev}p*" ] && part="${dev}"
+    echo "$part"
+  done
+}
+
 getLoop() {
-	IMGFILE=$1
-	SIMPLENAME=`kpartx -av $IMGFILE | egrep -o 'loop[0-9]+p[0-9]+'`
-	FQNAME="/dev/mapper/$SIMPLENAME"
-	[ -e "$FQNAME" ] || FQNAME="/dev/$SIMPLENAME"
-	echo "$FQNAME"
+  los $1 | head -2 | tail -1
 }
 
 freeLoop() {
-	IMGFILE=$1
-	kpartx -dv $IMGFILE
+  losetup -d `losetup -j $1 | cut -d':' -f1`
 }
 
 increase() {
@@ -60,9 +64,6 @@ ARCFILE=Armbian_20.02.1_Orangepizero_buster_current_5.4.20.7z
 ###############
 IMGFILE=*.img
 increase $IMGFILE 512
-
-
-
 
 
 #########
