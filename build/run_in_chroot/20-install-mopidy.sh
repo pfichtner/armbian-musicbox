@@ -34,6 +34,12 @@ apt-get purge -y python3-dev libasound2-dev
 ###############
 python3 -m pip install Mopidy-Iris
 
+###############
+# Mopidy-PiDi #
+###############
+python3 -m pip install Mopidy-PiDi
+python3 -m pip install pidi-display-st7735
+
 
 cat <<EOF >>/etc/mopidy/mopidy.conf 
 [http]
