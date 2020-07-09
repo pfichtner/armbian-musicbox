@@ -34,12 +34,6 @@ apt-get purge -y python3-dev libasound2-dev
 ###############
 python3 -m pip install Mopidy-Iris
 
-###############
-# Mopidy-PiDi #
-###############
-python3 -m pip install Mopidy-PiDi
-python3 -m pip install pidi-display-st7735
-
 
 cat <<EOF >>/etc/mopidy/mopidy.conf 
 [http]
@@ -61,6 +55,24 @@ scan_follow_symlinks = true
 EOF
 
 systemctl enable mopidy
+
+
+
+
+#####################
+# Mopidy-PiDi START #
+#####################
+python3 -m pip install Mopidy-PiDi
+python3 -m pip install pidi-display-st7735
+
+cat <<EOF >>/etc/mopidy/mopidy.conf 
+[pidi]
+enabled = true
+display = st7735
+EOF
+###################
+# Mopidy-PiDi END #
+###################
 
 
 
