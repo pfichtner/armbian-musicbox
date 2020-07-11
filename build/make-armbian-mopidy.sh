@@ -63,7 +63,7 @@ ARCFILE=Armbian_20.02.1_Orangepizero_buster_current_5.4.20.7z
 # make bigger #
 ###############
 IMGFILE=*.img
-increase $IMGFILE 512
+increase $IMGFILE 756
 
 
 #########
