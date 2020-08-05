@@ -9,7 +9,7 @@ vagrant_up() {
 }
 
 vagrant_copy() {
-	TMPFILE=`mktemp vagrant-ssh-config.XXXXXXXXXX`
+	TMPFILE=`mktemp -p '' vagrant-ssh-config.XXXXXXXXXX`
 	vagrant ssh-config >$TMPFILE
 	scp -F $TMPFILE "$@"
 	rm $TMPFILE
