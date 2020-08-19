@@ -39,7 +39,7 @@ deploy:
   cleanup: false
   overwrite: true
   file_glob: true
-  file: *.7z
+  file: "*.7z"
   on:
     repo: pfichtner/armbian-musicbox
 
