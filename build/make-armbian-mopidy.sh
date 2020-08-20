@@ -103,7 +103,7 @@ freeLoop $IMGFILE
 ##################
 minimize $IMGFILE
 increase $IMGFILE 32
-xz -T0 -9 -v $IMGFILE && mv $IMGFILE mopidy-orangepi.xz
+xz -T0 -9 -vc $IMGFILE > mopidy-orangepi.xz && rm $IMGFILE
 
 
 
