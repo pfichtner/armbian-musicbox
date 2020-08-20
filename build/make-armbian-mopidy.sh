@@ -58,7 +58,7 @@ IMGFILE=Armbian_20.05.2_Orangepizero_buster_current_5.4.43.img
 ARCFILE=${IMGFILE}.xz
 [ -d dls ] || mkdir dls
 (cd dls ; wget -c https://dl.armbian.com/orangepizero/archive/$ARCFILE)
-xz -T0 -kfd -c dls/$ARCFILE >$IMGFILE
+xz -T0 -vkfdc dls/$ARCFILE >$IMGFILE
 
 ###############
 # make bigger #
@@ -103,7 +103,7 @@ freeLoop $IMGFILE
 ##################
 minimize $IMGFILE
 increase $IMGFILE 32
-xz -T0 -9 -e $IMGFILE && mv $IMGFILE mopidy-orangepi.xz
+xz -T0 -9 -v $IMGFILE && mv $IMGFILE mopidy-orangepi.xz
 
 
 
