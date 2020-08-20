@@ -18,5 +18,5 @@ vagrant_copy() {
 vagrant_up
 vagrant_copy -pr build default:
 vagrant ssh -c "cd build/ && sudo -E bash make-armbian-mopidy.sh && ls -lh"
-vagrant_copy -pr default:build/*.7z .
+vagrant_copy -pr default:build/*.xz .
 vagrant destroy -f
